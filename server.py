@@ -9,15 +9,15 @@ class HTTPRequest:
         self.data = raw_data.decode("utf-8")
         self.lines = self.data.split("\r\n")
         self.start_line = self.lines[0].split(" ")
-        self.method, self.route, self.http_version = self.start_line
+        self.method, self.path, self.http_version = self.start_line
 
         self.headers = [header.replace(" ", "").split(":") for header in self.lines[1:]]
 
-    def is_get_for(self, route):
-        if self.route == route: return True
+    def is_get_for(self, path):
+        return self.path == path and self.method == "GET"
     
     def string(self):
-        return f"{self.method} request sent to route {self.route}"
+        return f"{self.method} request to path {self.path}"
 
     def __str__(self):
         return f"{self.start_line}, {self.headers}"
@@ -37,8 +37,8 @@ class HTTPResponse:
 class StaticHTTPServer:
     def __init__(self, log=True, **kwargs):
         self.host, self.port = kwargs['host'], kwargs['port']
-        self.html_file_path = kwargs['path']
-        self.route = kwargs['route']
+        self.html_file_path = kwargs['file']
+        self.path = kwargs['path']
         self.tcp_sock = socket(AF_INET, SOCK_STREAM)
         self.tcp_sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
         self.tcp_sock.bind((self.host, self.port))
@@ -61,6 +61,6 @@ class StaticHTTPServer:
             client_sock, address = self.tcp_sock.accept()
             request = HTTPRequest(client_sock.recv(1024))
             self.log(str(address)+": "+request.string())
-            if request.is_get_for(self.route):
+            if request.is_get_for(self.path):
                 self.log(f"Served the {self.html_file_path} to client with address {address}")
                 client_sock.send(http_response.make())

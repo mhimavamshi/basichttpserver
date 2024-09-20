@@ -7,11 +7,11 @@ for now:
 - [x] index.html at route '/' for HTTP GET request
 
 expected to be done:
-- [] map paths to static html files OR any other static files (css, js, and files like mp3 etc.,)
+- [ ] map paths to static html files OR any other static files (css, js, and files like mp3 etc.,)
 
 would be cool to be done:
-- [] include server side rendering of the html files
-- [] some sort of configuration file where could define what files would be at what paths, and other settings and start the server using CLI
+- [ ] include server side rendering of the html files
+- [ ] some sort of configuration file where could define what files would be at what paths, and other settings and start the server using CLI
 
 
 ## log

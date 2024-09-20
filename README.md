@@ -11,6 +11,7 @@ expected to be done:
 
 would be cool to be done:
 - include server side rendering of the html files
+- some sort of configuration file where could define what files would be at what paths, and other settings and start the server using CLI
 
 
 ## log

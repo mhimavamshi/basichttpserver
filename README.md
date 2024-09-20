@@ -15,4 +15,4 @@ would be cool to be done:
 
 ## log
 so we need a way to handle HTTP Requests and Responses according to the <https://www.rfc-editor.org/rfc/rfc9110.html>
-and afaik as of now, to improve efficiency we can cache the HTML body and/or preload the HTML files, and handle the HTTP requests using multiprocessing OR use async await for the I/O operation of reading the files and then serve the HTTP responses when idle i.e. CPU operations. IF the latter's done then cache the files, in memory to avoid reading from disks, for future requests.
+and afaik as of now, to improve efficiency we can cache the static file body and/or preload the static files, and handle the HTTP requests using multiprocessing OR use async await for the I/O operation of reading the files and then serve the HTTP responses when idle i.e. CPU operations. IF the latter's done then cache the files, in memory to avoid reading from disks, for future requests.

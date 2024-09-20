@@ -11,3 +11,7 @@ expected to be done:
 
 would be cool to be done:
 - include server side rendering of the html files
+
+
+## log
+so we need a way to handle HTTP Requests and Responses according to the <https://www.rfc-editor.org/rfc/rfc9110.html>

@@ -11,8 +11,8 @@ expected to be done:
 - [ ] map paths to static html files OR any other static files (css, js, and files like mp3 etc.,)
 
 would be cool to be done:
-- [ ] include server side rendering of the html files
 - [ ] some sort of configuration file where could define what files would be at what paths, and other settings and start the server using CLI
+- [ ] include limited server side rendering of the html files (variables declared in config file that need to be computed in runtime like, for instance, time)
 - [ ] an auto-generated index HTML file that lists all the paths as hyperlinks at path '/'
 
 

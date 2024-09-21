@@ -7,6 +7,9 @@ from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 class HTTPRequest:
     def __init__(self, raw_data):
         self.data = raw_data.decode("utf-8")
+
+        self.make
+
         self.lines = self.data.split("\r\n")
         self.start_line = self.lines[0].split(" ")
         self.method, self.path, self.http_version = self.start_line

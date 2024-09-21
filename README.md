@@ -5,6 +5,7 @@ this program acts as a HTTP server and serves a static files to the client
 
 for now:
 - [x] index.html at route '/' for HTTP GET request
+- [ ] follow HTTP protocol, handle headers (to the extent we need to support static web serving)
 
 expected to be done:
 - [ ] handle folders and path etc.,

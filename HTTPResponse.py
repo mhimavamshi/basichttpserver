@@ -13,7 +13,8 @@ class HTTPResponse:
         'html': 'text/html',
         'htm': 'text/html',
         'css': 'text/css',
-        'js': 'application/javascript',
+        'py': 'text/plain',
+        'js': 'text/javascript',
         'json': 'application/json',
         'jpg': 'image/jpeg',
         'jpeg': 'image/jpeg',
@@ -45,10 +46,13 @@ class HTTPResponse:
     def make_body(self, file_path=None):
         if self.status_code == 400:
             self.headers['Content-Type'] = "text/plain"
-            self.headers['Content-Length'] = 19
-            return "Unsupported Method"
+            self.headers['Content-Length'] = "18"
+            return "\r\nUnsupported Method"
+        # Hmmm, Should it be hardcoded? or a seperate file or something else? 
         if self.status_code == 404:
-            return ""
+            self.headers['Content-Type'] = "text/plain"
+            self.headers['Content-Length'] = "16"
+            return "\r\n404 Not Found :("
         if self.status_code == 200 and file_path == None:
             raise Exception("No file was provided to serve the GET request.")
 
@@ -68,4 +72,4 @@ class HTTPResponse:
         return bytes(self.message, encoding="utf-8")
     
     def __str__(self):
-        return f"{self.start_line}\n{self.headers}{self.body[0:20]}...."
+        return f"{self.start_line}\n{self.headers}\n{self.body[0:20]}...."

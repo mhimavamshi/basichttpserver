@@ -6,7 +6,7 @@ this program acts as a HTTP/1.0 server and serves static files to clients
 for now:
 - [X] follow HTTP protocol, handle headers (to the extent we need to support static web serving)
 - [X] map the paths to file system paths directly (example, "/js/a.js" translates to "a.js file from js folder")
-- [ ] python program to generate index.html with hyperlinks to all files in the directory, at this moment
+- [X] python program to generate index.html with hyperlinks to all files in the directory, at the moment it runs
 - [ ] path '/' points to index.html exclusively or redirects
 - [ ] store the file data that is sent in a hashmap or other structure in-memory so future requests won't have to read from disk each time. (Problem is of "cache" invalidation) 
 

@@ -56,12 +56,15 @@ class HTTPResponse:
         if self.status_code == 200 and file_path == None:
             raise Exception("No file was provided to serve the GET request.")
 
-        self.headers["Content-Length"] = str(os.path.getsize(file_path))
         try:
             self.headers["Content-Type"] = HTTPResponse.extension_to_mime[file_path.rsplit('.', 1)[-1]]
         except KeyError:
+            # TODO: is 200 a good idea?
             print(file_path.rsplit('.', 1)[-1])
-            pass
+            self.headers["Content-Length"] = "0"
+            return "\r\n"
+        
+        self.headers["Content-Length"] = str(os.path.getsize(file_path))
         with open(file_path, "r") as fl:
             body = fl.read()
         return "\r\n" + str(body)

@@ -21,5 +21,12 @@ would be cool to be done:
 - [ ] some global "cache" (or a way to avoid reading from disk and using previously served/read static files) i.e. accessible to multiple processes (IPC maybe?) and if the "cache" is handled by a seperate process then if server restarts it still has access to the "cached" memory
 - [ ] another process that uses OS file change notifier or any other way(s) to check if the file has beend updated or modified, then get the difference to the one already in cache and modify it in cache by applying the difference
 
+## Usage
+for testing purpose:
+```
+$ python test.py
+```
+and view in your choice of web browser at the specified host and port (default is 5000) 
+
 ## log
 so we need a way to handle HTTP/1.0 Requests and Responses according to the <https://datatracker.ietf.org/doc/html/rfc1945>

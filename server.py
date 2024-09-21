@@ -33,6 +33,7 @@ class StaticHTTPServer:
             if request.method in {'POST', 'HEAD'}:
                 response = HTTPResponse(status_code=400) 
 
+            self.log(file_path+str(os.path.isfile(file_path)))
             if not os.path.exists(file_path):
                 response = HTTPResponse(status_code=404)
             elif request.method == "GET":

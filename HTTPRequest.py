@@ -15,7 +15,7 @@ class HTTPRequest:
             headers[header[0]] = header[1]
         return headers
 
-    def string(self):
+    def info(self):
         return f"{self.method} request to path {self.path}"
 
     def __str__(self):

@@ -22,3 +22,4 @@ would be cool to be done:
 
 ## log
 so we need a way to handle HTTP/1.0 Requests and Responses according to the <https://datatracker.ietf.org/doc/html/rfc1945>
+>>>>>>> 5c3b4d36ddbbe324ba602c2d88a33d1f79a50138

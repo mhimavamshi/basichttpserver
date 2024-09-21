@@ -6,7 +6,6 @@ from threading import Thread
 class StaticHTTPServer:
     def __init__(self, log=True, **kwargs):
         self.host, self.port = kwargs['host'], kwargs['port']
-        self.path = kwargs['path']
         self.tcp_sock = socket(AF_INET, SOCK_STREAM)
         self.tcp_sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
         self.tcp_sock.bind((self.host, self.port))

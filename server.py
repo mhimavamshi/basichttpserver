@@ -33,12 +33,12 @@ class StaticHTTPServer:
             if request.method in {'POST', 'HEAD'}:
                 response = HTTPResponse(status_code=400) 
 
-            self.log(file_path+str(os.path.isfile(file_path)))
-            if not os.path.exists(file_path):
-                response = HTTPResponse(status_code=404)
-            elif request.method == "GET":
-                response = HTTPResponse(status_code=200, file_path=file_path)
-            
+            if request.method == "GET":
+                if not os.path.isfile(file_path):
+                    response = HTTPResponse(status_code=404)
+                else:
+                    response = HTTPResponse(status_code=200, file_path=file_path)
+
             self.log(f"Sent \n{response}\n to client with address {address}")
             client_sock.send(response.make())
 

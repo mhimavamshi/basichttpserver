@@ -10,19 +10,19 @@ class HTTPResponse:
     # TODO: don't just trust the extensions, check the file's head and content and everything else and infer
     # placeholder for now
     extension_to_mime = {
-        '.html': 'text/html',
-        '.htm': 'text/html',
-        '.css': 'text/css',
-        '.js': 'application/javascript',
-        '.json': 'application/json',
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.png': 'image/png',
-        '.gif': 'image/gif',
-        '.svg': 'image/svg+xml',
-        '.txt': 'text/plain',
-        '.pdf': 'application/pdf',
-        '.zip': 'application/zip',
+        'html': 'text/html',
+        'htm': 'text/html',
+        'css': 'text/css',
+        'js': 'application/javascript',
+        'json': 'application/json',
+        'jpg': 'image/jpeg',
+        'jpeg': 'image/jpeg',
+        'png': 'image/png',
+        'gif': 'image/gif',
+        'svg': 'image/svg+xml',
+        'txt': 'text/plain',
+        'pdf': 'application/pdf',
+        'zip': 'application/zip',
     }
 
     def __init__(self, status_code=200, headers={}, file_path=None):
@@ -35,7 +35,8 @@ class HTTPResponse:
 
 
     def make_headers(self, headers):
-        return "\r\n".join(": ".join(item) for item in headers.items())
+        self.headers.update(headers)
+        return "\r\n".join(": ".join(item) for item in self.headers.items())
 
     def make_response_line(self):
         return f"HTTP/1.0 {self.status_code} {HTTPResponse.status_readable[self.status_code]}"
@@ -51,10 +52,11 @@ class HTTPResponse:
         if self.status_code == 200 and file_path == None:
             raise Exception("No file was provided to serve the GET request.")
 
-        self.headers["Content-Length"] = os.path.getsize(file_path)
+        self.headers["Content-Length"] = str(os.path.getsize(file_path))
         try:
             self.headers["Content-Type"] = HTTPResponse.extension_to_mime[file_path.rsplit('.', 1)[-1]]
         except KeyError:
+            print(file_path.rsplit('.', 1)[-1])
             pass
         with open(file_path, "r") as fl:
             body = fl.read()

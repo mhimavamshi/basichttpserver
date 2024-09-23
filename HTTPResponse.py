@@ -4,7 +4,8 @@ class HTTPResponse:
     status_readable = {
         404: "Not Found",
         400: "Bad Request",
-        200: "OK"
+        200: "OK",
+        301: "Moved Permanently"
     }
 
     # TODO: don't just trust the extensions, check the file's head and content and everything else and infer
@@ -26,8 +27,9 @@ class HTTPResponse:
         'zip': 'application/zip',
     }
 
-    def __init__(self, status_code=200, headers={}, file_path=None):
+    def __init__(self, status_code=200, headers={}, file_path=None, redirection_location="/index.html"):
         self.status_code = status_code
+        self.redirection_location = redirection_location
         self.headers = {}
         self.start_line = self.make_response_line()
         self.body = self.make_body(file_path) 
@@ -53,6 +55,12 @@ class HTTPResponse:
             self.headers['Content-Type'] = "text/plain"
             self.headers['Content-Length'] = "16"
             return "\r\n404 Not Found :("
+        
+        if self.status_code == 301:
+            self.headers['Location'] = self.redirection_location
+            self.headers['Content-Length'] = "0"
+            return "\r\n"
+
         if self.status_code == 200 and file_path == None:
             raise Exception("No file was provided to serve the GET request.")
 

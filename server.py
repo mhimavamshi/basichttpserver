@@ -28,7 +28,9 @@ class StaticHTTPServer:
             response = HTTPResponse(status_code=400) 
 
         if request.method == "GET":
-            if not os.path.isfile(file_path):
+            if request.path == "/":
+                response = HTTPResponse(status_code=301, redirection_location="/index.html")
+            elif not os.path.isfile(file_path):
                 response = HTTPResponse(status_code=404)
             else:
                 response = HTTPResponse(status_code=200, file_path=file_path)

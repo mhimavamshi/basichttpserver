@@ -8,6 +8,7 @@ for now:
 - [X] map the paths to file system paths directly (example, "/js/a.js" translates to "a.js file from js folder")
 - [X] python program to generate index.html with hyperlinks to all files in the directory, at the moment it runs
 - [X] path '/' points to index.html exclusively or redirects
+- [ ] refactor
 - [ ] store the file data that is sent in a hashmap or other structure in-memory so future requests won't have to read from disk each time. (Problem is of "cache" invalidation) 
 - [ ] stop using threads (due to GIL etc.,) and use async await
 - [ ] store and reuse previous served content to avoid disk reads for each new request

@@ -24,24 +24,11 @@ class StaticHTTPServer:
         request = HTTPRequest(raw_data)
         self.log("\n"+str(address)+": "+request.info()+"\n")
 
-        # TODO: handle paths better, a hack for now 
-        file_path = os.path.normpath("." + request.path)
-
-
-        # TODO: handle this when the files on disk change
-        if file_path in self.file_cache:
-            body = self.file_cache[file_path]
-            self.log(f"Got {file_path} from file cache")
-        else:
-            body = []
-            body.append(HTTPResponse.extension_to_mime[file_path.rsplit('.', 1)[-1]])
-            body.append(str(os.path.getsize(file_path)))
-            with open(file_path, "r") as fl: body.append(fl.read())
-            self.file_cache[file_path] = body             
-            self.log(f"Added {file_path} to file cache")
-
         if request.method in {'POST', 'HEAD'}:
             response = HTTPResponse(status_code=400) 
+
+        # TODO: handle paths better, a hack for now 
+        file_path = os.path.normpath("." + request.path)
 
         if request.method == "GET":
             if request.path == "/":
@@ -49,6 +36,21 @@ class StaticHTTPServer:
             elif not os.path.isfile(file_path):
                 response = HTTPResponse(status_code=404)
             else:
+
+                # TODO: handle this when the files on disk change
+                if file_path in self.file_cache:
+                    body = self.file_cache[file_path]
+                    self.log(f"Got {file_path} from file cache")
+                else:
+                    body = []
+                    extension = file_path.rsplit('.', 1)[-1]
+                    if extension in HTTPResponse.extension_to_mime: body.append(HTTPResponse.extension_to_mime[extension])
+                    else: body.append("text/plain")
+                    body.append(str(os.path.getsize(file_path)))
+                    with open(file_path, "rb") as fl: body.append(fl.read())
+                    self.file_cache[file_path] = body             
+                    self.log(f"Added {file_path} to file cache")
+
                 response = HTTPResponse(status_code=200, body=body)
 
         client_sock.send(response.make())        

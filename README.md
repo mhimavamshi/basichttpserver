@@ -9,6 +9,7 @@ for now:
 - [X] python program to generate index.html with hyperlinks to all files in the directory, at the moment it runs
 - [X] path '/' points to index.html exclusively or redirects
 - [X] Handle images and other data
+- [ ] Error Handling
 - [ ] Use HTTP/1.0 caching mechanism
 - [ ] refactor
 - [ ] store the file data that is sent in a hashmap or other structure in-memory so future requests won't have to read from disk each time. (Problem is of "cache" invalidation) 

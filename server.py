@@ -2,6 +2,7 @@ from socket import SHUT_RDWR, socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSE
 from HTTPRequest import *
 from HTTPResponse import *
 from threading import Thread
+import mimetypes
 
 class StaticHTTPServer:
     def __init__(self, log=True, **kwargs):
@@ -43,9 +44,12 @@ class StaticHTTPServer:
                     self.log(f"Got {file_path} from file cache")
                 else:
                     body = []
-                    extension = file_path.rsplit('.', 1)[-1]
-                    if extension in HTTPResponse.extension_to_mime: body.append(HTTPResponse.extension_to_mime[extension])
-                    else: body.append("text/plain")
+                    # extension = file_path.rsplit('.', 1)[-1]
+                    # if extension in HTTPResponse.extension_to_mime: body.append(HTTPResponse.extension_to_mime[extension])
+                    # else: body.append("text/plain")
+                    mimetype, _ = mimetypes.guess_type(file_path)
+                    if mimetype == None: body.append("text/plain")
+                    else: body.append(mimetype)
                     body.append(str(os.path.getsize(file_path)))
                     with open(file_path, "rb") as fl: body.append(fl.read())
                     self.file_cache[file_path] = body             

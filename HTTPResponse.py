@@ -14,7 +14,6 @@ class HTTPResponse:
         'html': 'text/html',
         'htm': 'text/html',
         'css': 'text/css',
-        'py': 'text/plain',
         'js': 'text/javascript',
         'json': 'application/json',
         'jpg': 'image/jpeg',
@@ -31,9 +30,9 @@ class HTTPResponse:
         self.status_code = status_code
         self.redirection_location = redirection_location
         self.headers = {}
-        self.start_line = self.make_response_line()
+        self.start_line = bytes(self.make_response_line(), encoding="utf-8")
         self.body = self.make_body(body) 
-        self.headers = self.make_headers(headers)
+        self.headers = bytes(self.make_headers(headers), encoding="utf-8")
         self.raw_message = self.make()
 
 
@@ -44,44 +43,42 @@ class HTTPResponse:
     def make_response_line(self):
         return f"HTTP/1.0 {self.status_code} {HTTPResponse.status_readable[self.status_code]}"
 
-    # TODO: don't read from disk for every response making, use a "cache"
     def make_body(self, body=None):
         if self.status_code == 400:
             self.headers['Content-Type'] = "text/plain"
             self.headers['Content-Length'] = "18"
-            return "\r\nUnsupported Method"
-        # Hmmm, Should it be hardcoded? or a seperate file or something else? 
+            return b"\r\nUnsupported Method"
+
         if self.status_code == 404:
             self.headers['Content-Type'] = "text/plain"
             self.headers['Content-Length'] = "16"
-            return "\r\n404 Not Found :("
+            return b"\r\n404 Not Found :("
         
         if self.status_code == 301:
             self.headers['Location'] = self.redirection_location
             self.headers['Content-Length'] = "0"
-            return "\r\n"
+            return b"\r\n"
 
-        # if self.status_code == 200 and file_path == None:
-        #     raise Exception("No file was provided to serve the GET request.")
-
-        # try:
-        #     self.headers["Content-Type"] = HTTPResponse.extension_to_mime[file_path.rsplit('.', 1)[-1]]
-        # except KeyError:
-        #     # TODO: is 200 a good idea?
-        #     print(file_path.rsplit('.', 1)[-1])
-        #     self.headers["Content-Length"] = "0"
-        #     return "\r\n"
 
         self.headers["Content-Type"] = body[0]
         self.headers["Content-Length"] = body[1]
         # self.headers["Expires"] = 
         # self.headers["Last-Modified"] =
-        return "\r\n" + str(body[2])
+        # if self.headers["Content-Type"].split("/", 1)[0] == "text": 
+        #     # return "\r\n" + str(body[2], encoding="utf-8")
+        #     return body[2]
+
+        return b"\r\n" + body[2]
 
 
     def make(self):
-        self.message = "\r\n".join((self.start_line, self.headers, self.body))
-        return bytes(self.message, encoding="utf-8")
+
+        # self.message = bytes(self.start_line, encoding="utf-8") + b"\r\n" + bytes(self.headers, encoding="utf-8") \
+        # + b"\r\n" + self.body
+        self.message =  b"\r\n".join((self.start_line, self.headers, self.body))
+
+        return self.message 
+
     
     def __str__(self):
         return f"{self.start_line}\n{self.headers}\n{self.body[0:20]}...."

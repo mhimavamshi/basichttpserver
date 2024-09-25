@@ -11,6 +11,7 @@ for now:
 - [X] Handle images and other data
 - [ ] Error Handling
 - [ ] Use HTTP/1.0 caching mechanism
+- [ ] Handle Encoding
 - [ ] refactor
 - [ ] store the file data that is sent in a hashmap or other structure in-memory so future requests won't have to read from disk each time. (Problem is of "cache" invalidation) 
 - [ ] stop using threads (due to GIL etc.,) and use async await

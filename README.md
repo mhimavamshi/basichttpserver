@@ -26,7 +26,7 @@ would be cool to be done:
 - [ ] an auto-generated index HTML file that lists all the paths as hyperlinks at path '/', at runtime
 - [ ] Use async/await for continuing with CPU operations (serving new requests, parsing etc) while new file reads or I/O are done in background if not in "cache" already
 - [ ] some global "cache" (or a way to avoid reading from disk and using previously served/read static files) i.e. accessible to multiple processes (IPC maybe?) and if the "cache" is handled by a seperate process then if server restarts it still has access to the "cached" memory
-- [ ] another process that uses OS file change notifier or any other way(s) to check if the file has beend updated or modified, then get the difference to the one already in cache and modify it in cache by applying the difference
+- [ ] another process that uses OS file change notifier or any other way(s) to check if the file has been updated or modified, then get the difference to the one already in cache and modify it in cache by applying the difference
 
 ## Usage
 for testing purpose:

@@ -1,6 +1,7 @@
 from socket import SHUT_RDWR, socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 from src.HTTPRequest import *
 from src.HTTPResponse import *
+from src.utils.lastmodified import LastModifiedReader
 from threading import Thread
 import os
 import mimetypes
@@ -62,7 +63,7 @@ class StaticHTTPServer:
                     self.file_cache[file_path] = body             
                     self.log(f"Added {file_path} to file cache")
 
-                headers = {"Expires": self.expiry_reader.of(file_path)}
+                headers = {"Expires": self.expiry_reader.of(file_path), "Last-Modified": LastModifiedReader.of(file_path)}
 
                 response = HTTPResponse(status_code=200, body=body, headers=headers)
 
